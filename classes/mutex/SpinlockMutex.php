@@ -17,32 +17,31 @@ use malkusch\lock\util\Loop;
  */
 abstract class SpinlockMutex extends LockMutex
 {
-    
-    /**
-     * @var int The timeout in seconds a lock may live.
-     */
-    private $timeout;
-    
-    /**
-     * @var Loop The loop.
-     */
-    private $loop;
-    
-    /**
-     * @var string The lock key.
-     */
-    private $key;
-    
-    /**
-     * @var double The timestamp when the lock was acquired.
-     */
-    private $acquired;
-    
     /**
      * The prefix for the lock key.
      */
     private const PREFIX = "lock_";
-    
+
+    /**
+     * @var int The timeout in seconds a lock may live.
+     */
+    private $timeout;
+
+    /**
+     * @var \malkusch\lock\util\Loop The loop.
+     */
+    private $loop;
+
+    /**
+     * @var string The lock key.
+     */
+    private $key;
+
+    /**
+     * @var double The timestamp when the lock was acquired.
+     */
+    private $acquired;
+
     /**
      * Sets the timeout.
      *
@@ -54,14 +53,14 @@ abstract class SpinlockMutex extends LockMutex
     {
         $this->timeout = $timeout;
         $this->loop    = new Loop($this->timeout);
-        $this->key     = self::PREFIX.$name;
+        $this->key     = self::PREFIX . $name;
     }
-    
+
     protected function lock(): void
     {
         $this->loop->execute(function (): void {
             $this->acquired = microtime(true);
-            
+
             /*
              * The expiration time for the lock is increased by one second
              * to ensure that we delete only our keys. This will prevent the
@@ -90,7 +89,7 @@ abstract class SpinlockMutex extends LockMutex
             throw new LockReleaseException("Failed to release the lock.");
         }
     }
-    
+
     /**
      * Tries to acquire a lock.
      *

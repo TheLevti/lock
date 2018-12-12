@@ -1,16 +1,22 @@
 <?php
 
+declare(strict_types=1);
+
 namespace malkusch\lock\exception;
 
+use RuntimeException;
+
 /**
- * A Mutex exception.
+ * A mutex exception.
  *
  * @author Markus Malkusch <markus@malkusch.de>
  * @link bitcoin:1P5FAZ4QhXCuwYPnLZdk3PJsqePbu1UDDA Donations
  * @license WTFPL
  */
-class MutexException extends \Exception
+class MutexException extends RuntimeException implements PhpLockException
 {
-
-    const REDIS_NOT_ENOUGH_SERVERS = 1;
+    /**
+     * @var int Not enough redis servers.
+     */
+    public const REDIS_NOT_ENOUGH_SERVERS = 1;
 }

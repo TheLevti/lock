@@ -2,11 +2,11 @@
 
 namespace malkusch\lock\mutex;
 
-use Psr\Log\LoggerInterface;
-use Psr\Log\NullLogger;
-use Psr\Log\LoggerAwareInterface;
 use malkusch\lock\exception\LockAcquireException;
 use malkusch\lock\exception\LockReleaseException;
+use Psr\Log\LoggerAwareInterface;
+use Psr\Log\LoggerInterface;
+use Psr\Log\NullLogger;
 
 /**
  * Mutex based on the Redlock algorithm.
@@ -19,7 +19,6 @@ use malkusch\lock\exception\LockReleaseException;
  */
 abstract class RedisMutex extends SpinlockMutex implements LoggerAwareInterface
 {
-    
     /**
      * @var string The random value token for key identification.
      */
@@ -77,7 +76,7 @@ abstract class RedisMutex extends SpinlockMutex implements LoggerAwareInterface
         $errored  = 0;
         $this->token = \random_bytes(16);
         $exception   = null;
-        foreach ($this->redisAPIs as $index => $redisAPI) {
+        foreach ($this->redisAPIs as $redisAPI) {
             try {
                 if ($this->add($redisAPI, $key, $this->token, $expire)) {
                     $acquired++;
