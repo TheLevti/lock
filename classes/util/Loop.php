@@ -114,7 +114,8 @@ class Loop
                 self::MAXIMUM_WAIT_US
             );
             $max = \min($min * 2, self::MAXIMUM_WAIT_US);
-            $usecToSleep = \min($usecRemaining, \random_int($min, $max));
+
+            $usecToSleep = \min($usecRemaining, \random_int((int)$min, (int)$max));
 
             \usleep($usecToSleep);
         }
