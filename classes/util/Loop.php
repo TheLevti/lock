@@ -102,7 +102,7 @@ class Loop
             }
 
             // Calculate max time remaining, don't sleep any longer than that.
-            $usecRemaining = \intval(($deadline - \microtime(true))  * 1e6);
+            $usecRemaining = \intval(($deadline - \microtime(true)) * 1e6);
 
             // We've ran out of time.
             if ($usecRemaining <= 0) {

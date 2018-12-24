@@ -80,7 +80,7 @@ class SpinlockMutexTest extends TestCase
         $this->expectException(ExecutionOutsideLockException::class);
         $this->expectExceptionMessageRegExp(
             '/The code executed for \d+\.\d+ seconds. But the timeout is 1 ' .
-            'seconds. The last \d+\.\d+ seconds were executed outside the lock./'
+            'seconds. The last \d+\.\d+ seconds were executed outside of the lock./'
         );
 
         $mutex->synchronized(function () {
