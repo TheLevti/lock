@@ -53,9 +53,6 @@ class DoubleCheckedLocking
      * failed. It is up to the user to decide the last point.
      *
      * @param  callable $code The synchronized execution callback.
-     * @return mixed Boolean false if check did not pass or mixed for what ever
-     *         the synchronized callback returns.
-     *
      * @throws \Exception The execution callback or the check threw an
      *         exception.
      * @throws \malkusch\lock\exception\LockAcquireException The mutex could not
@@ -64,6 +61,9 @@ class DoubleCheckedLocking
      *         be released.
      * @throws \malkusch\lock\exception\ExecutionOutsideLockException Some code
      *         has been executed outside of the lock.
+     * @return mixed Boolean false if check did not pass or mixed for what ever
+     *         the synchronized callback returns.
+     *
      */
     public function then(callable $code)
     {

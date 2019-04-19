@@ -3,7 +3,6 @@
 namespace malkusch\lock\util;
 
 use malkusch\lock\exception\DeadlineException;
-use malkusch\lock\exception\TimeoutException;
 use malkusch\lock\exception\LockAcquireException;
 
 /**
@@ -18,7 +17,6 @@ use malkusch\lock\exception\LockAcquireException;
  */
 final class PcntlTimeout
 {
-
     /**
      * @var int Timeout in seconds
      */
@@ -32,10 +30,10 @@ final class PcntlTimeout
     public function __construct(int $timeout)
     {
         if (!self::isSupported()) {
-            throw new \RuntimeException("PCNTL module not enabled");
+            throw new \RuntimeException('PCNTL module not enabled');
         }
         if ($timeout <= 0) {
-            throw new \InvalidArgumentException("Timeout must be positive and non zero");
+            throw new \InvalidArgumentException('Timeout must be positive and non zero');
         }
         $this->timeout = $timeout;
     }
@@ -51,24 +49,24 @@ final class PcntlTimeout
      * interfer with your application and lead to unexpected behaviour.
      *
      * @param callable $code Executed code block
-     * @return mixed Return value of the executed block
-     *
      * @throws DeadlineException Running the code hit the deadline
      * @throws LockAcquireException Installing the timeout failed
+     * @return mixed Return value of the executed block
+     *
      */
     public function timeBoxed(callable $code)
     {
         $existingHandler = pcntl_signal_get_handler(SIGALRM);
 
         $signal = pcntl_signal(SIGALRM, function (): void {
-            throw new DeadlineException(sprintf("Timebox hit deadline of %d seconds", $this->timeout));
+            throw new DeadlineException(sprintf('Timebox hit deadline of %d seconds', $this->timeout));
         });
         if (!$signal) {
-            throw new LockAcquireException("Could not install signal");
+            throw new LockAcquireException('Could not install signal');
         }
         $oldAlarm = pcntl_alarm($this->timeout);
         if ($oldAlarm != 0) {
-            throw new LockAcquireException("Existing alarm was not expected");
+            throw new LockAcquireException('Existing alarm was not expected');
         }
         try {
             return $code();
@@ -90,10 +88,10 @@ final class PcntlTimeout
     public static function isSupported(): bool
     {
         return
-            PHP_SAPI === "cli" &&
-            extension_loaded("pcntl") &&
-            function_exists("pcntl_alarm") &&
-            function_exists("pcntl_signal") &&
-            function_exists("pcntl_signal_dispatch");
+            PHP_SAPI === 'cli' &&
+            extension_loaded('pcntl') &&
+            function_exists('pcntl_alarm') &&
+            function_exists('pcntl_signal') &&
+            function_exists('pcntl_signal_dispatch');
     }
 }

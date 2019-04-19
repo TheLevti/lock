@@ -19,12 +19,11 @@ use malkusch\lock\util\Loop;
  */
 class CASMutex extends Mutex
 {
-    
     /**
      * @var Loop The loop.
      */
     private $loop;
-    
+
     /**
      * Sets the timeout.
      *
@@ -37,7 +36,7 @@ class CASMutex extends Mutex
     {
         $this->loop = new Loop($timeout);
     }
-    
+
     /**
      * Notifies the Mutex about a successful CAS operation.
      */
@@ -45,7 +44,7 @@ class CASMutex extends Mutex
     {
         $this->loop->end();
     }
-    
+
     /**
      * Repeats executing a code until a compare-and-swap operation was successful.
      *
@@ -72,10 +71,10 @@ class CASMutex extends Mutex
      * </code>
      *
      * @param callable $code The synchronized execution block.
-     * @return mixed The return value of the execution block.
-     *
      * @throws \Exception The execution block threw an exception.
      * @throws TimeoutException The timeout was reached.
+     * @return mixed The return value of the execution block.
+     *
      */
     public function synchronized(callable $code)
     {

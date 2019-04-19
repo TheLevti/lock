@@ -20,7 +20,7 @@ abstract class SpinlockMutex extends LockMutex
     /**
      * The prefix for the lock key.
      */
-    private const PREFIX = "lock_";
+    private const PREFIX = 'lock_';
 
     /**
      * @var int The timeout in seconds a lock may live.
@@ -52,8 +52,8 @@ abstract class SpinlockMutex extends LockMutex
     public function __construct(string $name, int $timeout = 3)
     {
         $this->timeout = $timeout;
-        $this->loop    = new Loop($this->timeout);
-        $this->key     = self::PREFIX . $name;
+        $this->loop = new Loop($this->timeout);
+        $this->key = self::PREFIX . $name;
     }
 
     protected function lock(): void
@@ -86,7 +86,7 @@ abstract class SpinlockMutex extends LockMutex
          * This guarantees that we don't delete a wrong key.
          */
         if (!$this->release($this->key)) {
-            throw new LockReleaseException("Failed to release the lock.");
+            throw new LockReleaseException('Failed to release the lock.');
         }
     }
 
@@ -96,8 +96,8 @@ abstract class SpinlockMutex extends LockMutex
      * @param string $key The lock key.
      * @param int $expire The timeout in seconds when a lock expires.
      *
-     * @return bool True, if the lock could be acquired.
      * @throws LockAcquireException An unexpected error happened.
+     * @return bool True, if the lock could be acquired.
      */
     abstract protected function acquire(string $key, int $expire): bool;
 

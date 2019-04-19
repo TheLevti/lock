@@ -26,8 +26,6 @@ abstract class Mutex
      * released as well.
      *
      * @param  callable $code The synchronized execution callback.
-     * @return mixed The return value of the execution callback.
-     *
      * @throws \Exception The execution callback threw an exception.
      * @throws \malkusch\lock\exception\LockAcquireException The mutex could not
      *         be acquired, no further side effects.
@@ -35,6 +33,8 @@ abstract class Mutex
      *         be released, the code was already executed.
      * @throws \malkusch\lock\exception\ExecutionOutsideLockException Some code
      *         has been executed outside of the lock.
+     * @return mixed The return value of the execution callback.
+     *
      */
     abstract public function synchronized(callable $code);
 

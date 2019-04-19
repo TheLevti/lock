@@ -47,7 +47,7 @@ class PHPRedisMutex extends RedisMutex
         /** @var \Redis $redisAPI */
         try {
             //  Will set the key, if it doesn't exist, with a ttl of $expire seconds
-            return $redisAPI->set($key, $value, ["nx", "ex" => $expire]);
+            return $redisAPI->set($key, $value, ['nx', 'ex' => $expire]);
         } catch (RedisException $e) {
             $message = sprintf(
                 "Failed to acquire lock for key '%s'",
@@ -90,7 +90,7 @@ class PHPRedisMutex extends RedisMutex
         try {
             return $redis->eval($script, $arguments, $numkeys);
         } catch (RedisException $e) {
-            throw new LockReleaseException("Failed to release lock", 0, $e);
+            throw new LockReleaseException('Failed to release lock', 0, $e);
         }
     }
 }

@@ -14,12 +14,11 @@ use malkusch\lock\exception\LockReleaseException;
  */
 class SemaphoreMutex extends LockMutex
 {
-
     /**
      * @var resource The semaphore id.
      */
     private $semaphore;
-    
+
     /**
      * Sets the semaphore id.
      *
@@ -37,18 +36,18 @@ class SemaphoreMutex extends LockMutex
     public function __construct($semaphore)
     {
         if (!is_resource($semaphore)) {
-            throw new \InvalidArgumentException("The semaphore id is not a valid resource.");
+            throw new \InvalidArgumentException('The semaphore id is not a valid resource.');
         }
         $this->semaphore = $semaphore;
     }
-    
+
     /**
      * @internal
      */
     protected function lock(): void
     {
         if (!sem_acquire($this->semaphore)) {
-            throw new LockAcquireException("Failed to acquire the Semaphore.");
+            throw new LockAcquireException('Failed to acquire the Semaphore.');
         }
     }
 
@@ -58,7 +57,7 @@ class SemaphoreMutex extends LockMutex
     protected function unlock(): void
     {
         if (!sem_release($this->semaphore)) {
-            throw new LockReleaseException("Failed to release the Semaphore.");
+            throw new LockReleaseException('Failed to release the Semaphore.');
         }
     }
 }

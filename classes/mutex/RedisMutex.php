@@ -23,12 +23,12 @@ abstract class RedisMutex extends SpinlockMutex implements LoggerAwareInterface
      * @var string The random value token for key identification.
      */
     private $token;
-    
+
     /**
      * @var array The Redis APIs.
      */
     private $redisAPIs;
-    
+
     /**
      * @var LoggerInterface The logger.
      */
@@ -48,9 +48,9 @@ abstract class RedisMutex extends SpinlockMutex implements LoggerAwareInterface
         parent::__construct($name, $timeout);
 
         $this->redisAPIs = $redisAPIs;
-        $this->logger    = new NullLogger();
+        $this->logger = new NullLogger();
     }
-    
+
     /**
      * Sets a logger instance on the object
      *
@@ -65,17 +65,17 @@ abstract class RedisMutex extends SpinlockMutex implements LoggerAwareInterface
     {
         $this->logger = $logger;
     }
-    
+
     protected function acquire(string $key, int $expire): bool
     {
         // 1. This differs from the specification to avoid an overflow on 32-Bit systems.
         $time = microtime(true);
-        
+
         // 2.
         $acquired = 0;
-        $errored  = 0;
+        $errored = 0;
         $this->token = \random_bytes(16);
-        $exception   = null;
+        $exception = null;
         foreach ($this->redisAPIs as $redisAPI) {
             try {
                 if ($this->add($redisAPI, $key, $this->token, $expire)) {
@@ -84,20 +84,20 @@ abstract class RedisMutex extends SpinlockMutex implements LoggerAwareInterface
             } catch (LockAcquireException $exception) {
                 // todo if there is only one redis server, throw immediately.
                 $context = [
-                    "key"       => $key,
-                    "token"     => $this->token,
-                    "exception" => $exception
+                    'key' => $key,
+                    'token' => $this->token,
+                    'exception' => $exception
                 ];
-                $this->logger->warning("Could not set {key} = {token} at server #{index}.", $context);
+                $this->logger->warning('Could not set {key} = {token} at server #{index}.', $context);
 
                 $errored++;
             }
         }
-        
+
         // 3.
         $elapsedTime = microtime(true) - $time;
-        $isAcquired  = $this->isMajority($acquired) && $elapsedTime <= $expire;
-        
+        $isAcquired = $this->isMajority($acquired) && $elapsedTime <= $expire;
+
         if ($isAcquired) {
             // 4.
             return true;
@@ -118,7 +118,7 @@ abstract class RedisMutex extends SpinlockMutex implements LoggerAwareInterface
 
         return false;
     }
-    
+
     protected function release(string $key): bool
     {
         /*
@@ -142,17 +142,18 @@ abstract class RedisMutex extends SpinlockMutex implements LoggerAwareInterface
             } catch (LockReleaseException $e) {
                 // todo throw if there is only one redis server
                 $context = [
-                    "key"       => $key,
-                    "index"     => $index,
-                    "token"     => $this->token,
-                    "exception" => $e
+                    'key' => $key,
+                    'index' => $index,
+                    'token' => $this->token,
+                    'exception' => $e
                 ];
-                $this->logger->warning("Could not unset {key} = {token} at server #{index}.", $context);
+                $this->logger->warning('Could not unset {key} = {token} at server #{index}.', $context);
             }
         }
+
         return $this->isMajority($released);
     }
-    
+
     /**
      * Returns if a count is the majority of all servers.
      *
@@ -182,8 +183,8 @@ abstract class RedisMutex extends SpinlockMutex implements LoggerAwareInterface
      * @param int    $numkeys The number of values in $arguments that represent Redis key names.
      * @param array  $arguments Keys and values.
      *
-     * @return mixed The script result, or false if executing failed.
      * @throws LockReleaseException An unexpected error happened.
+     * @return mixed The script result, or false if executing failed.
      */
     abstract protected function evalScript($redisAPI, string $script, int $numkeys, array $arguments);
 }
