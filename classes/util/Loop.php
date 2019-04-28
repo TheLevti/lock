@@ -110,7 +110,7 @@ class Loop
             }
 
             $min = \min(
-                (int) self::MINIMUM_WAIT_US * 1.5 ** $i,
+                (int) (self::MINIMUM_WAIT_US * 1.5 ** $i),
                 self::MAXIMUM_WAIT_US
             );
             $max = \min($min * 2, self::MAXIMUM_WAIT_US);
