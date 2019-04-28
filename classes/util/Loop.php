@@ -92,17 +92,17 @@ class Loop
         $this->looping = true;
 
         // At this time, the lock will time out.
-        $deadline = \microtime(true) + $this->timeout;
+        $deadline = microtime(true) + $this->timeout;
 
         $result = null;
-        for ($i = 0; $this->looping && \microtime(true) < $deadline; ++$i) {
+        for ($i = 0; $this->looping && microtime(true) < $deadline; ++$i) {
             $result = $code();
             if (!$this->looping) {
                 break;
             }
 
             // Calculate max time remaining, don't sleep any longer than that.
-            $usecRemaining = \intval(($deadline - \microtime(true)) * 1e6);
+            $usecRemaining = \intval(($deadline - microtime(true)) * 1e6);
 
             // We've ran out of time.
             if ($usecRemaining <= 0) {
@@ -110,17 +110,17 @@ class Loop
             }
 
             $min = \min(
-                (int) (self::MINIMUM_WAIT_US * 1.5 ** $i),
+                (int) self::MINIMUM_WAIT_US * 1.5 ** $i,
                 self::MAXIMUM_WAIT_US
             );
             $max = \min($min * 2, self::MAXIMUM_WAIT_US);
 
             $usecToSleep = \min($usecRemaining, \random_int((int)$min, (int)$max));
 
-            \usleep($usecToSleep);
+            usleep($usecToSleep);
         }
 
-        if (\microtime(true) >= $deadline) {
+        if (microtime(true) >= $deadline) {
             throw TimeoutException::create($this->timeout);
         }
 
