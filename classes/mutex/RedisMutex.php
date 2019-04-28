@@ -76,7 +76,7 @@ abstract class RedisMutex extends SpinlockMutex implements LoggerAwareInterface
         $errored = 0;
         $this->token = \random_bytes(16);
         $exception = null;
-        foreach ($this->redisAPIs as $redisAPI) {
+        foreach ($this->redisAPIs as $index => $redisAPI) {
             try {
                 if ($this->add($redisAPI, $key, $this->token, $expire)) {
                     $acquired++;
@@ -85,6 +85,7 @@ abstract class RedisMutex extends SpinlockMutex implements LoggerAwareInterface
                 // todo if there is only one redis server, throw immediately.
                 $context = [
                     'key' => $key,
+                    'index' => $index,
                     'token' => $this->token,
                     'exception' => $exception
                 ];
