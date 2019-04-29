@@ -2,6 +2,7 @@
 
 namespace malkusch\lock\mutex;
 
+use InvalidArgumentException;
 use malkusch\lock\exception\LockAcquireException;
 use malkusch\lock\exception\TimeoutException;
 
@@ -26,7 +27,7 @@ class MySQLMutex extends LockMutex
         $this->pdo = $PDO;
 
         if (\strlen($name) > 64) {
-            throw new \InvalidArgumentException('The maximum length of the lock name is 64 characters.');
+            throw new InvalidArgumentException('The maximum length of the lock name is 64 characters.');
         }
 
         $this->name = $name;

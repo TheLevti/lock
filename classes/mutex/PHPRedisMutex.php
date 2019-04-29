@@ -66,7 +66,7 @@ class PHPRedisMutex extends RedisMutex
      */
     protected function evalScript($redis, string $script, int $numkeys, array $arguments)
     {
-        for ($i = $numkeys; $i < \count($arguments); $i++) {
+        for ($i = $numkeys; $i < count($arguments); $i++) {
             /*
              * If a serialization mode such as "php" or "igbinary" is enabled, the arguments must be
              * serialized by us, because phpredis does not do this for the eval command.

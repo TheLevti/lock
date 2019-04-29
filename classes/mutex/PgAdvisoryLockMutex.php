@@ -2,6 +2,8 @@
 
 namespace malkusch\lock\mutex;
 
+use RuntimeException;
+
 class PgAdvisoryLockMutex extends LockMutex
 {
     /**
@@ -29,7 +31,7 @@ class PgAdvisoryLockMutex extends LockMutex
         $hashed_name = hash('sha256', $name, true);
 
         if (false === $hashed_name) {
-            throw new \RuntimeException('Unable to hash the key, sha256 algorithm is not supported.');
+            throw new RuntimeException('Unable to hash the key, sha256 algorithm is not supported.');
         }
 
         list($bytes1, $bytes2) = str_split($hashed_name, 4);

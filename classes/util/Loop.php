@@ -102,20 +102,20 @@ class Loop
             }
 
             // Calculate max time remaining, don't sleep any longer than that.
-            $usecRemaining = \intval(($deadline - microtime(true)) * 1e6);
+            $usecRemaining = intval(($deadline - microtime(true)) * 1e6);
 
             // We've ran out of time.
             if ($usecRemaining <= 0) {
                 throw TimeoutException::create($this->timeout);
             }
 
-            $min = \min(
+            $min = min(
                 (int) self::MINIMUM_WAIT_US * 1.5 ** $i,
                 self::MAXIMUM_WAIT_US
             );
-            $max = \min($min * 2, self::MAXIMUM_WAIT_US);
+            $max = min($min * 2, self::MAXIMUM_WAIT_US);
 
-            $usecToSleep = \min($usecRemaining, \random_int((int)$min, (int)$max));
+            $usecToSleep = min($usecRemaining, random_int((int)$min, (int)$max));
 
             usleep($usecToSleep);
         }
