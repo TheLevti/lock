@@ -29,7 +29,7 @@ final class PcntlTimeout
     /**
      * Builds the timeout.
      *
-     * @param  int $timeout Timeout in seconds.
+     * @param int $timeout Timeout in seconds.
      * @throws \RuntimeException When the PCNTL module is not enabled.
      * @throws \InvalidArgumentException When the timeout is zero or negative.
      */
@@ -59,12 +59,11 @@ final class PcntlTimeout
      * behaviour.
      *
      * @param  callable $code Executed code block
-     * @throws \malkusch\lock\exception\DeadlineException
-     *             Running the code hit the deadline.
-     * @throws \malkusch\lock\exception\LockAcquireException
-     *             Installing the timeout failed.
+     * @throws \malkusch\lock\exception\DeadlineException Running the code hit
+     * the deadline.
+     * @throws \malkusch\lock\exception\LockAcquireException Installing the
+     * timeout failed.
      * @return mixed Return value of the executed block
-     *
      */
     public function timeBoxed(callable $code)
     {

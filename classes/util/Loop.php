@@ -44,7 +44,7 @@ class Loop
     /**
      * Sets the timeout. The default is 3 seconds.
      *
-     * @param  int $timeout The timeout in seconds. The default is 3 seconds.
+     * @param int $timeout The timeout in seconds. The default is 3 seconds.
      * @throws \LengthException The timeout must be greater than 0.
      */
     public function __construct(int $timeout = 3)
@@ -83,7 +83,7 @@ class Loop
      * @param callable $code The to be executed code callback.
      * @throws \Exception The execution callback threw an exception.
      * @throws \malkusch\lock\exception\TimeoutException The timeout has been
-     *         reached.
+     * reached.
      * @return mixed The return value of the executed code callback.
      *
      */

@@ -32,10 +32,10 @@ class DoubleCheckedLocking
      * Constructs a new instance of the DoubleCheckedLocking pattern.
      *
      * @param \malkusch\lock\mutex\Mutex $mutex Provides methods for exclusive
-     *        code execution.
+     * code execution.
      * @param callable $check Callback that decides if the lock should be
-     *        acquired and if the synchronized callback should be executed after
-     *        acquiring the lock.
+     * acquired and if the critical code callback should be executed after
+     * acquiring the lock.
      */
     public function __construct(Mutex $mutex, callable $check)
     {
@@ -49,21 +49,20 @@ class DoubleCheckedLocking
      *
      * If then returns boolean boolean false, the check did not pass before or
      * after acquiring the lock. A boolean false can also be returned from the
-     * synchronized callback to indicate that processing did not occure or has
+     * critical code callback to indicate that processing did not occure or has
      * failed. It is up to the user to decide the last point.
      *
-     * @param  callable $code The synchronized execution callback.
+     * @param callable $code The critical code callback.
      * @throws \Exception The execution callback or the check threw an
-     *         exception.
+     * exception.
      * @throws \malkusch\lock\exception\LockAcquireException The mutex could not
-     *         be acquired.
+     * be acquired.
      * @throws \malkusch\lock\exception\LockReleaseException The mutex could not
-     *         be released.
+     * be released.
      * @throws \malkusch\lock\exception\ExecutionOutsideLockException Some code
-     *         has been executed outside of the lock.
+     * has been executed outside of the lock.
      * @return mixed Boolean false if check did not pass or mixed for what ever
-     *         the synchronized callback returns.
-     *
+     * the critical code callback returns.
      */
     public function then(callable $code)
     {

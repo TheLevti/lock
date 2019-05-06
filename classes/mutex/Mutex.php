@@ -25,16 +25,15 @@ abstract class Mutex
      * The code block may throw an exception. In this case the lock will be
      * released as well.
      *
-     * @param  callable $code The synchronized execution callback.
+     * @param callable $code The synchronized execution callback.
      * @throws \Exception The execution callback threw an exception.
      * @throws \malkusch\lock\exception\LockAcquireException The mutex could not
-     *         be acquired, no further side effects.
+     * be acquired, no further side effects.
      * @throws \malkusch\lock\exception\LockReleaseException The mutex could not
-     *         be released, the code was already executed.
+     * be released, the code was already executed.
      * @throws \malkusch\lock\exception\ExecutionOutsideLockException Some code
-     *         has been executed outside of the lock.
+     * has been executed outside of the lock.
      * @return mixed The return value of the execution callback.
-     *
      */
     abstract public function synchronized(callable $code);
 
@@ -53,11 +52,11 @@ abstract class Mutex
      * });
      * </code>
      *
-     * @param  callable $check Callback that decides if the lock should be
-     *         acquired and if the synchronized callback should be executed
-     *         after acquiring the lock.
+     * @param callable $check Callback that decides if the lock should be
+     * acquired and if the synchronized callback should be executed after
+     * acquiring the lock.
      * @return \malkusch\lock\util\DoubleCheckedLocking The double-checked
-     *         locking pattern.
+     * locking pattern.
      */
     public function check(callable $check): DoubleCheckedLocking
     {
